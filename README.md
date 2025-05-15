@@ -1,70 +1,82 @@
-# Getting Started with Create React App
+### 🎬 IMDb Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+A comprehensive, full-stack IMDb clone built with React and Django REST Framework. Browse movies and TV shows, create watchlists, write reviews, and explore entertainment content just like on the real IMDb.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## ✨ Features
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- 🎥 **Extensive Title Database**: Browse movies, TV shows, episodes, and more
+- 👥 **Person Profiles**: Explore actors, directors, and crew members
+- ⭐️ **Ratings & Reviews**: Rate titles and share your thoughts
+- 📋 **Personalized Watchlists**: Track what you want to watch, are watching, or have completed
+- 📰 **Entertainment News**: Stay updated with the latest industry news
+- 🎮 **Trivia**: Discover interesting facts about your favorite titles and celebrities
+- 🔍 **Advanced Search**: Find exactly what you're looking for
+- 📱 **Responsive Design**: Enjoy a seamless experience on any device
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🛠 Technologies
 
-### Analyzing the Bundle Size
+### Frontend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- **React**: UI library for building the user interface
+- **React Router**: For navigation and routing
+- **Tailwind CSS**: For styling and responsive design
+- **Axios**: For API requests
+- **date-fns**: For date formatting
+- **React Feather**: For icons
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Backend
 
-### Advanced Configuration
+- **Django**: Web framework
+- **Django REST Framework**: For building the API
+- **JWT Authentication**: For secure user authentication
+- **PostgreSQL**: Database (recommended)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+## 🚀 Getting Started
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Prerequisites
 
-### `npm run build` fails to minify
+- Node.js (v14 or higher)
+- npm or yarn
+- Python (v3.8 or higher)
+- pip
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### Installation
+
+#### Frontend
+
+```shellscript
+# Clone the repository
+git clone https://github.com/yourusername/imdb-clone.git
+cd imdb-clone
+
+# Install dependencies
+npm install
+
+# Create .env file
+cp .env.example .env
+# Edit .env with your API URL
+# REACT_APP_API_URL=http://localhost:8000/api
+
+# Start the development server
+npm start
