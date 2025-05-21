@@ -69,6 +69,10 @@ api.interceptors.response.use(
   }
 );
 
+const reviewService = {
+  getRecent: () => api.get("/titles/reviews/?ordering=-created_at"),
+};
+
 // Title related API calls
 const titleService = {
   getAll: (params) => api.get("/titles/titles/", { params }),
@@ -78,6 +82,10 @@ const titleService = {
   addReview: (id, data) => api.post(`/titles/reviews/`, { ...data, title: id }),
   addRating: (id, score) => api.post(`/titles/ratings/`, { title: id, score }),
   getGenres: () => api.get("/titles/genres/"),
+  create: (data) => api.post("/titles/titles/create/", data),
+  update: (id, data) => api.put(`/titles/titles/${id}/update/`, data),
+  partialUpdate: (id, data) => api.patch(`/titles/titles/${id}/update/`, data),
+  delete: (id) => api.delete(`/titles/titles/${id}/delete/`),
 };
 
 // Person related API calls
@@ -91,12 +99,21 @@ const personService = {
 const newsService = {
   getAll: (params) => api.get("/news/news/", { params }),
   getById: (id) => api.get(`/news/news/${id}/`),
+  create: (data) => api.post("/news/news/", data),
+  update: (id, data) => api.put(`/news/news/${id}/`, data),
+  partialUpdate: (id, data) => api.patch(`/news/news/${id}/`, data),
+  delete: (id) => api.delete(`/news/news/${id}/`),
   getLatest: () => api.get("/news/news/?ordering=-published_at"),
 };
 
 // Trivia related API calls
 const triviaService = {
   getAll: (params) => api.get("/news/trivia/", { params }),
+  getById: (id) => api.get(`/news/trivia/${id}/`),
+  create: (data) => api.post("/news/trivia/", data),
+  update: (id, data) => api.put(`/news/trivia/${id}/`, data),
+  partialUpdate: (id, data) => api.patch(`/news/trivia/${id}/`, data),
+  delete: (id) => api.delete(`/news/trivia/${id}/`),
   getByTitle: (titleId) => api.get(`/news/trivia/?title=${titleId}`),
   getByPerson: (personId) => api.get(`/news/trivia/?person=${personId}`),
 };
@@ -133,9 +150,12 @@ const userService = {
   login: (credentials) => api.post("/users/login/", credentials),
   register: (userData) => api.post("/users/users/", userData),
   getCurrentUser: () => api.get("/users/users/me/"),
-  updateProfile: (id, data) => api.patch(`/users/users/${id}/`, data),
+  getAll: (params) => api.get("/users/users/", { params }),
+  getById: (id) => api.get(`/users/users/${id}/`),
+  update: (id, data) => api.put(`/users/users/${id}/`, data),
+  partialUpdate: (id, data) => api.patch(`/users/users/${id}/`, data),
+  delete: (id) => api.delete(`/users/users/${id}/`),
 };
-
 export default api;
 export {
   titleService,
@@ -145,4 +165,5 @@ export {
   watchlistService,
   searchService,
   userService,
+  reviewService,
 };

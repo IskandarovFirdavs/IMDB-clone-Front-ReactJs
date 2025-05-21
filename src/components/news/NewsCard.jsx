@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 const NewsCard = ({ news, compact = false }) => {
   const truncateContent = (content, maxLength) => {
+    if (!content || typeof content !== "string") return "";
     if (content.length <= maxLength) return content;
     return content.substring(0, maxLength) + "...";
   };
@@ -19,10 +20,10 @@ const NewsCard = ({ news, compact = false }) => {
               <img
                 src={news.image || "/placeholder.svg"}
                 alt={news.title}
-                className="w-full h-full object-cover"
+                className="object-cover w-full h-full"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gray-300 text-gray-500">
+              <div className="flex items-center justify-center w-full h-full text-gray-500 bg-gray-300">
                 <span>No Image</span>
               </div>
             )}
@@ -51,11 +52,12 @@ const NewsCard = ({ news, compact = false }) => {
           >
             {news.title}
           </h3>
-          {!compact && (
-            <p className="text-gray-600 text-sm mb-3">
+          {news.content && (
+            <p className="mb-3 text-sm text-gray-600">
               {truncateContent(news.content, 150)}
             </p>
           )}
+
           {news.author && (
             <div className="text-xs text-gray-500">
               By {news.author.username}

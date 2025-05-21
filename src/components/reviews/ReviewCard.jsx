@@ -31,15 +31,15 @@ const ReviewCard = ({ review }) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 mb-4">
+    <div className="p-4 mb-4 bg-white rounded-lg shadow-md">
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center">
-          <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center mr-3">
+          <div className="flex items-center justify-center w-10 h-10 mr-3 bg-gray-200 rounded-full">
             {profilePicture ? (
               <img
                 src={profilePicture || "/placeholder.svg"}
                 alt={username}
-                className="h-10 w-10 rounded-full"
+                className="w-10 h-10 rounded-full"
               />
             ) : (
               <User size={20} className="text-gray-500" />
@@ -58,7 +58,7 @@ const ReviewCard = ({ review }) => {
             )}
             <div className="flex items-center text-sm text-gray-500">
               <div className="flex items-center mr-2">
-                <Star size={14} className="text-yellow-400 mr-1" />
+                <Star size={14} className="mr-1 text-yellow-400" />
                 <span>{review?.rating || "N/A"}/10</span>
               </div>
               <span>
@@ -105,7 +105,7 @@ const ReviewCard = ({ review }) => {
       {review?.content && review.content.length > 150 && (
         <button
           onClick={toggleExpanded}
-          className="mt-2 text-sm text-blue-600 hover:text-blue-800 font-medium"
+          className="mt-2 text-sm font-medium text-blue-600 hover:text-blue-800"
         >
           {expanded ? "Show less" : "Read more"}
         </button>

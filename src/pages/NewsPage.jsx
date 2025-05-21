@@ -48,9 +48,9 @@ const NewsPage = () => {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="flex items-center justify-center h-64">
+          <div className="w-12 h-12 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
         </div>
       </div>
     );
@@ -58,12 +58,12 @@ const NewsPage = () => {
 
   if (error) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-red-50 p-4 rounded-md">
+      <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="p-4 rounded-md bg-red-50">
           <div className="flex">
             <div className="flex-shrink-0">
               <svg
-                className="h-5 w-5 text-red-400"
+                className="w-5 h-5 text-red-400"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -89,33 +89,33 @@ const NewsPage = () => {
   // Single news article view
   if (id && news) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <Link
           to="/news"
-          className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
+          className="inline-flex items-center mb-6 text-blue-600 hover:text-blue-800"
         >
           <ArrowLeft size={16} className="mr-1" />
           Back to all news
         </Link>
 
-        <article className="bg-white rounded-lg shadow-md overflow-hidden">
+        <article className="overflow-hidden bg-white rounded-lg shadow-md">
           {news.image && (
-            <div className="h-96 bg-gray-200">
+            <div className="bg-gray-200 h-96">
               <img
                 src={news.image || "/placeholder.svg"}
                 alt={news.title}
-                className="w-full h-full object-cover"
+                className="object-cover w-full h-full"
               />
             </div>
           )}
 
           <div className="p-6 md:p-8">
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">
+            <h1 className="mb-4 text-3xl font-bold md:text-4xl">
               {news.title}
             </h1>
 
-            <div className="flex flex-wrap items-center text-gray-500 mb-6">
-              <div className="flex items-center mr-6 mb-2">
+            <div className="flex flex-wrap items-center mb-6 text-gray-500">
+              <div className="flex items-center mb-2 mr-6">
                 <Calendar size={16} className="mr-1" />
                 <time dateTime={news.published_at}>
                   {new Date(news.published_at).toLocaleDateString("en-US", {
@@ -133,11 +133,11 @@ const NewsPage = () => {
                 </div>
               )}
 
-              <div className="flex flex-wrap gap-2 ml-auto mb-2">
+              <div className="flex flex-wrap gap-2 mb-2 ml-auto">
                 {news.related_title && (
                   <Link
                     to={`/title/${news.related_title.id}`}
-                    className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
+                    className="px-3 py-1 text-sm text-blue-800 bg-blue-100 rounded-full"
                   >
                     {news.related_title.primary_title}
                   </Link>
@@ -146,7 +146,7 @@ const NewsPage = () => {
                 {news.related_person && (
                   <Link
                     to={`/person/${news.related_person.id}`}
-                    className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm"
+                    className="px-3 py-1 text-sm text-purple-800 bg-purple-100 rounded-full"
                   >
                     {news.related_person.name}
                   </Link>
@@ -163,8 +163,8 @@ const NewsPage = () => {
         {/* Related News */}
         {latestNews.length > 0 && (
           <div className="mt-12">
-            <h2 className="text-2xl font-bold mb-6">Related News</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <h2 className="mb-6 text-2xl font-bold">Related News</h2>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {latestNews.slice(0, 3).map((item) => (
                 <NewsCard key={item.id} news={item} />
               ))}
@@ -177,18 +177,18 @@ const NewsPage = () => {
 
   // News listing view
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-bold mb-8">Latest News</h1>
+    <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <h1 className="mb-8 text-3xl font-bold">Latest News</h1>
 
       {latestNews.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {latestNews.map((item) => (
             <NewsCard key={item.id} news={item} />
           ))}
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow-md p-8 text-center">
-          <h3 className="text-xl font-medium text-gray-900 mb-2">
+        <div className="p-8 text-center bg-white rounded-lg shadow-md">
+          <h3 className="mb-2 text-xl font-medium text-gray-900">
             No news articles available
           </h3>
           <p className="text-gray-500">Check back later for updates.</p>
