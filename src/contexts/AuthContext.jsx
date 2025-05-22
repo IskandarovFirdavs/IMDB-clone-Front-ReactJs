@@ -1,60 +1,50 @@
-"use client";
-
-import { createContext, useState, useEffect, useContext } from "react";
+// src/contexts/AuthContext.jsx
+import { createContext, useContext, useEffect, useState } from "react";
 import { userService } from "../services/api";
 
 const AuthContext = createContext();
 
-export const useAuth = () => useContext(AuthContext);
-
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Check if user is already logged in
-    const token = localStorage.getItem("access_token");
-    if (token) {
-      fetchUserProfile();
-    } else {
+    const checkAuth = async () => {
+      const token = localStorage.getItem("access_token");
+      if (token) {
+        try {
+          const res = await userService.getCurrentUser();
+          setCurrentUser(res.data);
+        } catch (err) {
+          console.error("Auto login failed", err);
+          logout();
+        }
+      }
       setLoading(false);
-    }
-  }, []);
+    };
 
-  const fetchUserProfile = async () => {
-    try {
-      const response = await userService.getCurrentUser();
-      setCurrentUser(response.data);
-    } catch (err) {
-      console.error("Failed to fetch user profile:", err);
-      logout();
-    } finally {
-      setLoading(false);
-    }
-  };
+    checkAuth();
+  }, []);
 
   const login = async (username, password) => {
     try {
-      setError(null);
-      const response = await userService.login({ username, password });
-      const { refresh, access_token } = response.data;
+      const res = await userService.login({ username, password });
+      localStorage.setItem("access_token", res.data.access);
+      localStorage.setItem("refresh_token", res.data.refresh);
 
-      localStorage.setItem("access_token", access_token);
-      localStorage.setItem("refresh_token", refresh);
-
-      await fetchUserProfile();
+      const userRes = await userService.getCurrentUser();
+      setCurrentUser(userRes.data);
       return true;
     } catch (err) {
-      setError(err.response?.data?.detail || "Login failed");
+      setError("Login failed. Check credentials.");
       return false;
     }
   };
 
-  const register = async (userData) => {
+  const register = async (data) => {
     try {
-      setError(null);
-      await userService.register(userData);
+      await userService.register(data);
       return true;
     } catch (err) {
       setError(err.response?.data || "Registration failed");
@@ -68,14 +58,13 @@ export const AuthProvider = ({ children }) => {
     setCurrentUser(null);
   };
 
-  const value = {
-    currentUser,
-    login,
-    register,
-    logout,
-    loading,
-    error,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{ currentUser, login, register, logout, error, loading }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
+
+export const useAuth = () => useContext(AuthContext);

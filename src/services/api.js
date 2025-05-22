@@ -148,14 +148,15 @@ const searchService = {
 // User related API calls
 const userService = {
   login: (credentials) => api.post("/users/login/", credentials),
-  register: (userData) => api.post("/users/users/", userData),
-  getCurrentUser: () => api.get("/users/users/me/"),
-  getAll: (params) => api.get("/users/users/", { params }),
-  getById: (id) => api.get(`/users/users/${id}/`),
-  update: (id, data) => api.put(`/users/users/${id}/`, data),
-  partialUpdate: (id, data) => api.patch(`/users/users/${id}/`, data),
-  delete: (id) => api.delete(`/users/users/${id}/`),
+  register: (userData) => api.post("/users/", userData),
+  getCurrentUser: () => api.get("/users/me/"),
+  getAll: (params) => api.get("/users/", { params }),
+  getById: (id) => api.get(`/users/${id}/`),
+  update: (id, data) => api.put(`/users/${id}/`, data),
+  partialUpdate: (id, data) => api.patch(`/users/${id}/`, data),
+  delete: (id) => api.delete(`/users/${id}/`),
 };
+
 export default api;
 export {
   titleService,

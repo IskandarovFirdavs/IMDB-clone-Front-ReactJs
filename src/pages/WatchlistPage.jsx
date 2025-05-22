@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { Film, AlertCircle } from "react-feather"
-import { watchlistService } from "../services/api"
-import { useAuth } from "../contexts/AuthContext"
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Film, AlertCircle } from "react-feather";
+import { watchlistService } from "../services/api";
+import { useAuth } from "../contexts/AuthContext";
 
 const WatchlistPage = () => {
-  const [watchlist, setWatchlist] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [activeStatus, setActiveStatus] = useState("all")
+  const [watchlist, setWatchlist] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [activeStatus, setActiveStatus] = useState("all");
 
-  const { currentUser } = useAuth()
-  const navigate = useNavigate()
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
 
   const statusOptions = [
     { value: "all", label: "All" },
@@ -21,70 +21,82 @@ const WatchlistPage = () => {
     { value: "WATCHING", label: "Watching" },
     { value: "COMPLETED", label: "Completed" },
     { value: "DROPPED", label: "Dropped" },
-  ]
+  ];
 
   useEffect(() => {
     if (!currentUser) {
-      navigate("/login", { state: { from: "/watchlist" } })
-      return
+      navigate("/login", { state: { from: "/watchlist" } });
+      return;
     }
 
-    fetchWatchlist()
-  }, [currentUser, navigate])
+    fetchWatchlist();
+  }, [currentUser, navigate]);
 
   const fetchWatchlist = async () => {
     try {
-      setLoading(true)
-      const response = await watchlistService.getAll()
-      setWatchlist(response.data)
+      setLoading(true);
+      const response = await watchlistService.getAll();
+      setWatchlist(
+        Array.isArray(response.data)
+          ? response.data
+          : response.data.results || []
+      );
     } catch (err) {
-      console.error("Error fetching watchlist:", err)
-      setError("Failed to load watchlist. Please try again later.")
+      console.error("Error fetching watchlist:", err);
+      setError("Failed to load watchlist. Please try again later.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const updateWatchlistStatus = async (id, status) => {
     try {
-      await watchlistService.updateStatus(id, status)
+      await watchlistService.updateStatus(id, status);
       // Update local state
-      setWatchlist((prevWatchlist) => prevWatchlist.map((item) => (item.id === id ? { ...item, status } : item)))
+      setWatchlist((prevWatchlist) =>
+        prevWatchlist.map((item) =>
+          item.id === id ? { ...item, status } : item
+        )
+      );
     } catch (err) {
-      console.error("Error updating watchlist status:", err)
+      console.error("Error updating watchlist status:", err);
     }
-  }
+  };
 
   const removeFromWatchlist = async (id) => {
     try {
-      await watchlistService.removeTitle(id)
+      await watchlistService.removeTitle(id);
       // Update local state
-      setWatchlist((prevWatchlist) => prevWatchlist.filter((item) => item.id !== id))
+      setWatchlist((prevWatchlist) =>
+        prevWatchlist.filter((item) => item.id !== id)
+      );
     } catch (err) {
-      console.error("Error removing from watchlist:", err)
+      console.error("Error removing from watchlist:", err);
     }
-  }
+  };
 
   const filteredWatchlist =
-    activeStatus === "all" ? watchlist : watchlist.filter((item) => item.status === activeStatus)
+    activeStatus === "all"
+      ? watchlist
+      : watchlist.filter((item) => item.status === activeStatus);
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="flex items-center justify-center h-64">
+          <div className="w-12 h-12 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>
         </div>
       </div>
-    )
+    );
   }
 
   if (error) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-red-50 p-4 rounded-md">
+      <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="p-4 rounded-md bg-red-50">
           <div className="flex">
             <div className="flex-shrink-0">
-              <AlertCircle className="h-5 w-5 text-red-400" />
+              <AlertCircle className="w-5 h-5 text-red-400" />
             </div>
             <div className="ml-3">
               <h3 className="text-sm font-medium text-red-800">Error</h3>
@@ -95,12 +107,12 @@ const WatchlistPage = () => {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-bold mb-6">My Watchlist</h1>
+    <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <h1 className="mb-6 text-3xl font-bold">My Watchlist</h1>
 
       {/* Status Filter */}
       <div className="mb-8">
@@ -110,15 +122,22 @@ const WatchlistPage = () => {
               key={option.value}
               onClick={() => setActiveStatus(option.value)}
               className={`px-4 py-2 rounded-md text-sm font-medium ${
-                activeStatus === option.value ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                activeStatus === option.value
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
               }`}
             >
               {option.label}
               {option.value === "all" ? (
-                <span className="ml-2 bg-gray-700 text-white text-xs px-2 py-0.5 rounded-full">{watchlist.length}</span>
+                <span className="ml-2 bg-gray-700 text-white text-xs px-2 py-0.5 rounded-full">
+                  {watchlist.length}
+                </span>
               ) : (
                 <span className="ml-2 bg-gray-700 text-white text-xs px-2 py-0.5 rounded-full">
-                  {watchlist.filter((item) => item.status === option.value).length}
+                  {
+                    watchlist.filter((item) => item.status === option.value)
+                      .length
+                  }
                 </span>
               )}
             </button>
@@ -127,9 +146,12 @@ const WatchlistPage = () => {
       </div>
 
       {filteredWatchlist.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredWatchlist.map((item) => (
-            <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div
+              key={item.id}
+              className="overflow-hidden bg-white rounded-lg shadow-md"
+            >
               <div className="relative">
                 <Link to={`/title/${item.title.id}`}>
                   <div className="aspect-[2/3] bg-gray-200">
@@ -137,10 +159,10 @@ const WatchlistPage = () => {
                       <img
                         src={item.title.poster || "/placeholder.svg"}
                         alt={item.title.primary_title}
-                        className="w-full h-full object-cover"
+                        className="object-cover w-full h-full"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gray-300 text-gray-500">
+                      <div className="flex items-center justify-center w-full h-full text-gray-500 bg-gray-300">
                         <Film size={32} />
                       </div>
                     )}
@@ -152,28 +174,37 @@ const WatchlistPage = () => {
                       item.status === "COMPLETED"
                         ? "bg-green-100 text-green-800"
                         : item.status === "WATCHING"
-                          ? "bg-blue-100 text-blue-800"
-                          : item.status === "PLAN_TO_WATCH"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : "bg-red-100 text-red-800"
+                        ? "bg-blue-100 text-blue-800"
+                        : item.status === "PLAN_TO_WATCH"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-red-100 text-red-800"
                     }`}
                   >
-                    {statusOptions.find((option) => option.value === item.status)?.label}
+                    {
+                      statusOptions.find(
+                        (option) => option.value === item.status
+                      )?.label
+                    }
                   </div>
                 </div>
               </div>
               <div className="p-4">
                 <Link to={`/title/${item.title.id}`} className="block">
-                  <h3 className="font-medium text-gray-900 mb-1 hover:text-blue-600">{item.title.primary_title}</h3>
-                  <p className="text-sm text-gray-500 mb-3">
-                    {item.title.start_year} • {item.title.title_type.replace("_", " ")}
+                  <h3 className="mb-1 font-medium text-gray-900 hover:text-blue-600">
+                    {item.title.primary_title}
+                  </h3>
+                  <p className="mb-3 text-sm text-gray-500">
+                    {item.title?.start_year || "N/A"} •{" "}
+                    {(item.title?.title_type || "").replace("_", " ")}
                   </p>
                 </Link>
 
                 <div className="flex flex-col space-y-2">
                   <select
                     value={item.status}
-                    onChange={(e) => updateWatchlistStatus(item.id, e.target.value)}
+                    onChange={(e) =>
+                      updateWatchlistStatus(item.id, e.target.value)
+                    }
                     className="block w-full text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   >
                     {statusOptions
@@ -197,25 +228,30 @@ const WatchlistPage = () => {
           ))}
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow-md p-8 text-center">
-          <Film size={48} className="mx-auto text-gray-400 mb-4" />
-          <h3 className="text-xl font-medium text-gray-900 mb-2">Your watchlist is empty</h3>
-          <p className="text-gray-500 mb-6">
+        <div className="p-8 text-center bg-white rounded-lg shadow-md">
+          <Film size={48} className="mx-auto mb-4 text-gray-400" />
+          <h3 className="mb-2 text-xl font-medium text-gray-900">
+            Your watchlist is empty
+          </h3>
+          <p className="mb-6 text-gray-500">
             {activeStatus === "all"
               ? "You haven't added any titles to your watchlist yet."
-              : `You don't have any titles with the "${statusOptions.find((option) => option.value === activeStatus)?.label}" status.`}
+              : `You don't have any titles with the "${
+                  statusOptions.find((option) => option.value === activeStatus)
+                    ?.label
+                }" status.`}
           </p>
           {activeStatus !== "all" ? (
             <button
               onClick={() => setActiveStatus("all")}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium"
+              className="px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
             >
               View all titles
             </button>
           ) : (
             <Link
               to="/"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium inline-block"
+              className="inline-block px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
             >
               Browse titles
             </Link>
@@ -223,7 +259,7 @@ const WatchlistPage = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default WatchlistPage
+export default WatchlistPage;

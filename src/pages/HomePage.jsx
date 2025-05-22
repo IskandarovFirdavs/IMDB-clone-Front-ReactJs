@@ -14,6 +14,9 @@ import NewsCard from "../components/news/NewsCard";
 import ReviewCard from "../components/reviews/ReviewCard";
 import { titleService, newsService } from "../services/api";
 import { reviewService } from "../services/api";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 const HomePage = () => {
   const [trendingTitles, setTrendingTitles] = useState([]);
@@ -21,6 +24,32 @@ const HomePage = () => {
   const [recentReviews, setRecentReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const sliderSettings = {
+    centerMode: true,
+    infinite: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    centerPadding: "60px",
+    dots: true,
+    arrows: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          centerPadding: "40px",
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          centerPadding: "20px",
+        },
+      },
+    ],
+  };
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -92,15 +121,43 @@ const HomePage = () => {
   return (
     <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
       {/* Hero Section */}
-      <div className="relative mb-8 overflow-hidden rounded-xl">
+      <div className="relative mb-8 overflow-hidden rounded-xl h-[500px]">
         <div className="absolute inset-0 z-10 bg-gradient-to-r from-blue-900 to-transparent"></div>
         <div className="absolute inset-0 z-0 bg-black opacity-40"></div>
-        <img
-          src="/placeholder.svg?height=500&width=1200"
-          alt="Hero"
-          className="w-full h-[500px] object-cover"
-        />
-        <div className="absolute inset-0 z-20 flex flex-col justify-center p-8 md:p-16">
+
+        {/* Slider Kinolar */}
+        <div className="relative z-0 h-full px-8 pt-8">
+          <Slider
+            centerMode={true}
+            centerPadding="60px"
+            slidesToShow={3}
+            infinite={true}
+            speed={500}
+            arrows={false}
+            responsive={[
+              {
+                breakpoint: 1024,
+                settings: {
+                  slidesToShow: 1,
+                  centerPadding: "40px",
+                },
+              },
+            ]}
+          >
+            {trendingTitles.slice(0, 5).map((title) => (
+              <div key={title.id} className="px-2">
+                <img
+                  src={title.poster || title.image_url || "/placeholder.svg"}
+                  alt={title.name || title.title}
+                  className="object-cover w-64 h-[400px] rounded-lg shadow-lg mx-auto"
+                />
+              </div>
+            ))}
+          </Slider>
+        </div>
+
+        {/* Hero Matn */}
+        <div className="absolute inset-0 z-20 flex flex-col justify-center max-w-xl p-8 md:p-16">
           <h1 className="mb-4 text-4xl font-bold text-white md:text-5xl">
             Discover and Track Your Favorite Movies & TV Shows
           </h1>
@@ -126,7 +183,6 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-
       {/* Trending Titles */}
       <div className="mb-12">
         <div className="flex items-center justify-between mb-6">
@@ -143,7 +199,6 @@ const HomePage = () => {
         </div>
         <TitleList titles={trendingTitles} />
       </div>
-
       {/* Latest News and Reviews */}
       <div className="grid grid-cols-1 gap-8 mb-12 md:grid-cols-3">
         <div className="md:col-span-2">
@@ -182,7 +237,6 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-
       {/* Categories */}
       <div className="mb-12">
         <h2 className="mb-6 text-2xl font-bold">Explore by Category</h2>
@@ -231,7 +285,6 @@ const HomePage = () => {
           </Link>
         </div>
       </div>
-
       {/* Call to Action */}
       <div className="p-8 text-white bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl">
         <div className="max-w-3xl mx-auto text-center">
