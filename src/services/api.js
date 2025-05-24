@@ -124,7 +124,7 @@ const triviaService = {
 
 // Watchlist related API calls
 const watchlistService = {
-  getAll: () => api.get("/titles/watchlists/"),
+  getAll: () => api.get("/titles/watchlists/list/"),
   addTitle: (titleId, status) =>
     api.post("/titles/watchlists/", { title: titleId, status }),
   updateStatus: (id, status) =>
