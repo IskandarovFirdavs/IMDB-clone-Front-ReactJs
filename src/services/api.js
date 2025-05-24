@@ -134,16 +134,10 @@ const watchlistService = {
 
 // Search related API calls
 const searchService = {
-  search: (query, type) => {
+  search: (query, titleType) => {
     const params = { search: query };
-    if (type && type !== "all") {
-      if (["MOVIE", "TV_SERIES", "TV_EPISODE", "VIDEO_GAME"].includes(type)) {
-        params.title_type = type;
-      } else if (type === "title") {
-        // Search only in titles
-      } else if (type === "person") {
-        return personService.getAll({ search: query });
-      }
+    if (titleType && titleType !== "all") {
+      params.title_type = titleType;
     }
     return api.get("/titles/titles/", { params });
   },

@@ -36,11 +36,19 @@ const WatchlistPage = () => {
     try {
       setLoading(true);
       const response = await watchlistService.getAll();
-      setWatchlist(
-        Array.isArray(response.data)
-          ? response.data
-          : response.data.results || []
-      );
+      console.log("Full response:", response.data);
+
+      const data = Array.isArray(response.data)
+        ? response.data
+        : response.data.results || [];
+
+      console.log("Parsed watchlist data:", data);
+
+      data.forEach((item) => {
+        console.log("Title in item:", item.title);
+      });
+
+      setWatchlist(data);
     } catch (err) {
       console.error("Error fetching watchlist:", err);
       setError("Failed to load watchlist. Please try again later.");
