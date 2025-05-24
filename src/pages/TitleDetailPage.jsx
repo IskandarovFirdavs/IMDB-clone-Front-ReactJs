@@ -180,7 +180,7 @@ const TitleDetailPage = () => {
                       </span>
                     ))}
                 </div>
-                {title.average_rating && (
+                {/* {title.average_rating && (
                   <div className="flex items-center mb-6">
                     <div className="flex items-center bg-[#f5c518] text-black font-bold px-2 py-1 rounded mr-4">
                       <Star size={18} className="mr-1" />
@@ -190,16 +190,9 @@ const TitleDetailPage = () => {
                       {title.num_votes.toLocaleString()} votes
                     </span>
                   </div>
-                )}
+                )} */}
                 <div className="flex flex-wrap gap-3 mb-4">
                   <WatchlistButton titleId={title.id} />
-                  <Link
-                    to={`/reviews/${title.id}`}
-                    className="inline-flex items-center px-4 py-2 font-medium text-gray-900 bg-white rounded-md hover:bg-gray-100"
-                  >
-                    <MessageSquare size={18} className="mr-1" />
-                    Read Reviews
-                  </Link>
                 </div>
               </div>
             </div>
@@ -249,7 +242,7 @@ const TitleDetailPage = () => {
             >
               Cast & Crew
             </button>
-            <button
+            {/* <button
               onClick={() => setActiveTab("reviews")}
               className={`pb-4 px-1 border-b-2 font-medium text-sm ${
                 activeTab === "reviews"
@@ -258,7 +251,7 @@ const TitleDetailPage = () => {
               }`}
             >
               Reviews
-            </button>
+            </button> */}
             <button
               onClick={() => setActiveTab("trivia")}
               className={`pb-4 px-1 border-b-2 font-medium text-sm ${
@@ -330,7 +323,7 @@ const TitleDetailPage = () => {
                 </div>
 
                 <div>
-                  <h3 className="mb-3 text-lg font-semibold">
+                  {/* <h3 className="mb-3 text-lg font-semibold">
                     Rate This Title
                   </h3>
                   <div className="p-4 bg-white rounded-lg shadow-md">
@@ -339,7 +332,7 @@ const TitleDetailPage = () => {
                       initialRating={0}
                       size="lg"
                     />
-                  </div>
+                  </div> */}
 
                   {title.title_type === "TV_SERIES" &&
                     title.episodes &&

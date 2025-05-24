@@ -11,7 +11,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import TriviaPage from "./pages/TriviaPage";
-
+import PersonPage from "./pages/PersonPage";
 function App() {
   return (
     <AuthProvider>
@@ -30,6 +30,7 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/search" element={<SearchResultsPage />} />
               <Route path="/trivia" element={<TriviaPage />} />
+              <Route path="/cast" element={<PersonPage />} />
             </Routes>
           </main>
           <Footer />
