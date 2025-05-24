@@ -10,6 +10,7 @@ import NewsPage from "./pages/NewsPage";
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
+import TriviaPage from "./pages/TriviaPage";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/search" element={<SearchResultsPage />} />
+              <Route path="/trivia" element={<TriviaPage />} />
             </Routes>
           </main>
           <Footer />

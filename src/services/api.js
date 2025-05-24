@@ -116,6 +116,10 @@ const triviaService = {
   delete: (id) => api.delete(`/news/trivia/${id}/`),
   getByTitle: (titleId) => api.get(`/news/trivia/?title=${titleId}`),
   getByPerson: (personId) => api.get(`/news/trivia/?person=${personId}`),
+
+  // ✅ New methods:
+  vote: (triviaId, voteType) =>
+    api.post(`/news/trivia/${triviaId}/vote/`, { vote_type: voteType }),
 };
 
 // Watchlist related API calls

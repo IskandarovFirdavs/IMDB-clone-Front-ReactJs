@@ -69,7 +69,9 @@ const WatchlistButton = ({ titleId }) => {
       setInWatchlist(true);
       setWatchlistId(response.data.id);
     } catch (err) {
-      setError(err.response?.data?.detail || "Failed to add to watchlist");
+      setError(
+        err.response?.data?.detail || "This title is already in your watchlist"
+      );
     } finally {
       setIsLoading(false);
     }

@@ -14,26 +14,25 @@ const NewsPage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    console.log("Current ID:", id);
+
     const fetchNews = async () => {
       try {
         setLoading(true);
-
         if (id) {
-          // Fetch single news article
           const newsResponse = await newsService.getById(id);
+          console.log("Single news response:", newsResponse.data);
           setNews(newsResponse.data);
 
-          // Fetch latest news for related articles
           const latestResponse = await newsService.getLatest();
           setLatestNews(
-            latestResponse.data.filter(
+            latestResponse.data.results.filter(
               (item) => item.id !== Number.parseInt(id)
             )
           );
         } else {
-          // Fetch all news
           const newsResponse = await newsService.getAll();
-          setLatestNews(newsResponse.data);
+          setLatestNews(newsResponse.data.results);
         }
       } catch (err) {
         console.error("Error fetching news:", err);
@@ -45,6 +44,9 @@ const NewsPage = () => {
 
     fetchNews();
   }, [id]);
+
+  // render qismida ham:
+  console.log("News state:", news);
 
   if (loading) {
     return (
@@ -102,7 +104,7 @@ const NewsPage = () => {
           {news.image && (
             <div className="bg-gray-200 h-96">
               <img
-                src={news.image || "/placeholder.svg"}
+                src={news.image}
                 alt={news.title}
                 className="object-cover w-full h-full"
               />
